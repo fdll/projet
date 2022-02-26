@@ -1,0 +1,15 @@
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 3px;
+}
+.w-100 {
+  min-width: 100%;
+}
+input,
+mat-select {
+  background-color: #d6d6d6;
+}
+.m-5 {
+  margin: 5px;
+}
