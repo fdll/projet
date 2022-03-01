@@ -1,6 +1,7 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { Salarie } from 'src/shared/interfaces/salarie.interface';
 import { SalariesService } from 'src/shared/services/salaries.service';
 
@@ -9,7 +10,7 @@ import { SalariesService } from 'src/shared/services/salaries.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   @ViewChild('input') public el!: ElementRef<HTMLInputElement>;
   public salaries: Salarie[] = [];
   public dataSource: MatTableDataSource<Salarie> = new MatTableDataSource();
@@ -18,17 +19,20 @@ export class AppComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public originalData: Salarie[] = [];
   public newData: Salarie[] = [];
+  private subscription!: Subscription;
 
   constructor(private salariesService: SalariesService) {}
 
   ngOnInit(): void {
-    this.salariesService.chercherSalaries().subscribe((salaries: Salarie[]) => {
-      this.dataSource.data = salaries;
-      this.originalData = JSON.parse(JSON.stringify(this.dataSource.data));
-      console.log(this.originalData);
-      this.newData = JSON.parse(JSON.stringify(this.originalData));
-      this.dataSource.paginator = this.paginator;
-    });
+    this.subscription = this.salariesService
+      .chercherSalaries()
+      .subscribe((salaries: Salarie[]) => {
+        this.dataSource.data = salaries;
+        this.originalData = JSON.parse(JSON.stringify(this.dataSource.data));
+        console.log(this.originalData);
+        this.newData = JSON.parse(JSON.stringify(this.originalData));
+        this.dataSource.paginator = this.paginator;
+      });
   }
 
   filtrer(event: Event): void {
@@ -50,5 +54,9 @@ export class AppComponent {
     }
     this.dataSource.data = JSON.parse(JSON.stringify(this.newData));
     this.newData = JSON.parse(JSON.stringify(this.originalData));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe;
   }
 }
