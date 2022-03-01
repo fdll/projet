@@ -24,7 +24,9 @@ export class AppComponent {
   ngOnInit(): void {
     this.salariesService.chercherSalaries().subscribe((salaries: Salarie[]) => {
       this.dataSource.data = salaries;
-      this.originalData = this.dataSource.data;
+      this.originalData = JSON.parse(JSON.stringify(this.dataSource.data));
+      console.log(this.originalData);
+      this.newData = JSON.parse(JSON.stringify(this.originalData));
       this.dataSource.paginator = this.paginator;
     });
   }
@@ -38,13 +40,15 @@ export class AppComponent {
 
   dedoublonner(critere: 'title' | 'firstName' | 'lastName' | 'email') {
     if (critere === null || critere === undefined) return;
-    for (let i = 0; i < this.originalData.length; i++) {
-      const str: string = this.originalData[i][critere];
-      for (let j = i + 1; j < this.originalData.length; j++) {
-        if (this.originalData[j][critere] === str) {
-          this.originalData.splice(j);
+    for (let i = 0; i < this.newData.length; i++) {
+      const str: string = this.newData[i][critere];
+      for (let j = i + 1; j < this.newData.length; j++) {
+        if (this.newData[j][critere] === str) {
+          this.newData.splice(j, 1);
         }
       }
     }
+    this.dataSource.data = JSON.parse(JSON.stringify(this.newData));
+    this.newData = JSON.parse(JSON.stringify(this.originalData));
   }
 }
