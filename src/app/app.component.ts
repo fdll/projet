@@ -29,7 +29,6 @@ export class AppComponent implements OnDestroy {
       .subscribe((salaries: Salarie[]) => {
         this.dataSource.data = salaries;
         this.originalData = JSON.parse(JSON.stringify(this.dataSource.data));
-        console.log(this.originalData);
         this.newData = JSON.parse(JSON.stringify(this.originalData));
         this.dataSource.paginator = this.paginator;
       });
@@ -42,8 +41,12 @@ export class AppComponent implements OnDestroy {
     this.dataSource.filter = filtre;
   }
 
-  dedoublonner(critere: 'title' | 'firstName' | 'lastName' | 'email') {
-    if (critere === null || critere === undefined) return;
+  dedoublonner(x: string) {
+    if (x === null || x === undefined) return;
+    let critere: 'title' | 'firstName' | 'lastName' | 'email' = 'title';
+    if (x === 'prenom') critere = 'firstName';
+    else if (x === 'nom') critere = 'lastName';
+    else if (x === 'email') critere = 'email';
     for (let i = 0; i < this.newData.length; i++) {
       const str: string = this.newData[i][critere];
       for (let j = i + 1; j < this.newData.length; j++) {
@@ -54,6 +57,10 @@ export class AppComponent implements OnDestroy {
     }
     this.dataSource.data = JSON.parse(JSON.stringify(this.newData));
     this.newData = JSON.parse(JSON.stringify(this.originalData));
+  }
+
+  afficherTous(): void {
+    this.dataSource.data = JSON.parse(JSON.stringify(this.originalData));
   }
 
   ngOnDestroy(): void {
