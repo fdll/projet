@@ -14,8 +14,8 @@ export class AppComponent implements OnDestroy {
   @ViewChild('input') public el!: ElementRef<HTMLInputElement>;
   public salaries: Salarie[] = [];
   public dataSource: MatTableDataSource<Salarie> = new MatTableDataSource();
-  public displayedColumns = ['titre', 'prenom', 'nom', 'email'];
-  public criteres = this.displayedColumns;
+  public displayedColumns = ['titre', 'prenom', 'nom', 'email', 'supprimer'];
+  public criteres = ['titre', 'prenom', 'nom', 'email'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public originalData: Salarie[] = [];
   public newData: Salarie[] = [];
@@ -61,6 +61,11 @@ export class AppComponent implements OnDestroy {
 
   afficherTous(): void {
     this.dataSource.data = JSON.parse(JSON.stringify(this.originalData));
+  }
+
+  supprimer(i: number) {
+    this.dataSource.data.splice(i, 1);
+    this.dataSource.data = this.dataSource.data;
   }
 
   ngOnDestroy(): void {
