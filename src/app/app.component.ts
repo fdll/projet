@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -20,8 +21,17 @@ export class AppComponent implements OnDestroy {
   public originalData: Salarie[] = [];
   public newData: Salarie[] = [];
   private subscription!: Subscription;
+  public form: FormGroup = this.fb.group({
+    titre: ['', Validators.required],
+    prenom: ['', Validators.required],
+    nom: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+  });
 
-  constructor(private salariesService: SalariesService) {}
+  constructor(
+    private fb: FormBuilder,
+    private salariesService: SalariesService
+  ) {}
 
   ngOnInit(): void {
     this.subscription = this.salariesService
@@ -70,5 +80,18 @@ export class AppComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe;
+  }
+
+  soumettre(): void {
+    if (this.form.status === 'VALID') {
+      const salarie: Salarie = {
+        title: this.form.value.titre,
+        firstName: this.form.value.prenom,
+        lastName: this.form.value.nom,
+        email: this.form.value.email,
+      };
+      this.dataSource.data.push(salarie);
+      this.dataSource.data = this.dataSource.data;
+    }
   }
 }

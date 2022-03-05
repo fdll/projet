@@ -1,9 +1,6 @@
-<div class="container" fxLayout="column" fxLayoutAlign="center center">
+<div fxLayout="column" fxLayoutAlign="center center">
   <form>
-    <div class="container" fxLayout="row" fxLayoutAlign="center center">
-      <button class="m-5" mat-raised-button color="primary" type="button">
-        Créer
-      </button>
+    <div fxLayout="row" fxLayoutAlign="center center">
       <mat-form-field fxLayout="row" fxLayoutAlign="center center">
         <input
           #input
@@ -13,7 +10,7 @@
         />
       </mat-form-field>
     </div>
-    <div class="container">
+    <div>
       <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="titre">
           <th mat-header-cell *matHeaderCellDef>Titre</th>
@@ -61,7 +58,7 @@
       >
       </mat-paginator>
     </div>
-    <div class="container" fxLayout="row" fxLayoutAlign="center center">
+    <div fxLayout="row" fxLayoutAlign="center center">
       <button
         class="m-5"
         mat-raised-button
@@ -90,3 +87,30 @@
     </div>
   </form>
 </div>
+
+<form [formGroup]="form" fxLayout="column" fxLayoutAlign="center center">
+  <p>Remplissez les informations du nouveau salarié :</p>
+  <mat-radio-group formControlName="titre">
+    <mat-radio-button value="Mr"> Mr </mat-radio-button>
+    <mat-radio-button value="Miss"> Miss </mat-radio-button>
+    <mat-radio-button value="Ms"> Ms </mat-radio-button>
+  </mat-radio-group>
+  <mat-form-field>
+    <input matInput placeholder="Prenom" formControlName="prenom" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Nom" formControlName="nom" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Email" formControlName="email" />
+  </mat-form-field>
+  <button
+    class="m-5"
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="soumettre()"
+  >
+    Ajouter
+  </button>
+</form>

@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
 
 const MATERIALS = [
   MatButtonModule,
@@ -27,6 +28,7 @@ const MATERIALS = [
   MatIconModule,
   MatInputModule,
   MatSelectModule,
+  MatRadioModule,
 ];
 @NgModule({
   imports: MATERIALS,
