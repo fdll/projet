@@ -1,15 +1,8 @@
 <div fxLayout="column" fxLayoutAlign="center center">
   <form>
-    <div fxLayout="row" fxLayoutAlign="center center">
-      <mat-form-field fxLayout="row" fxLayoutAlign="center center">
-        <input
-          #input
-          (keyup)="filtrer($event)"
-          matInput
-          placeholder="filtrer"
-        />
-      </mat-form-field>
-    </div>
+    <mat-form-field fxLayout="column" fxLayoutAlign="center center">
+      <input #input (keyup)="filtrer($event)" matInput placeholder="filtrer" />
+    </mat-form-field>
     <div>
       <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="titre">
@@ -91,9 +84,9 @@
 <form [formGroup]="form" fxLayout="column" fxLayoutAlign="center center">
   <p>Remplissez les informations du nouveau salarié :</p>
   <mat-radio-group formControlName="titre">
-    <mat-radio-button value="Mr"> Mr </mat-radio-button>
-    <mat-radio-button value="Miss"> Miss </mat-radio-button>
-    <mat-radio-button value="Ms"> Ms </mat-radio-button>
+    <mat-radio-button class="m-5" value="Mr"> Mr </mat-radio-button>
+    <mat-radio-button class="m-5" value="Miss"> Miss </mat-radio-button>
+    <mat-radio-button class="m-5" value="Ms"> Ms </mat-radio-button>
   </mat-radio-group>
   <mat-form-field>
     <input matInput placeholder="Prenom" formControlName="prenom" />
